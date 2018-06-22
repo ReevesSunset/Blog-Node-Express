@@ -1,6 +1,7 @@
 $(function () {
     var $loginBox = $('#loginBox')
     var $registerBox = $('#registerBox')
+    var $userInfo = $('#userInfo')
     // 注册登录切换
     $loginBox.find('a').on('click', function () {
         $loginBox.hide()
@@ -26,7 +27,7 @@ $(function () {
                 $registerBox.find('.colWarning').html(res.message)
                 if (res.code == 200) {
                     setTimeout(() => {
-                        alert('注册成功')    
+                        alert('注册成功')
                     }, 100);
                     $loginBox.show()
                     $registerBox.hide()
@@ -48,11 +49,22 @@ $(function () {
                 // alert(res.message)
                 $registerBox.find('.colWarning').html(res.message)
                 if (res.code == 200) {
-                    setTimeout(() => {
-                        alert('注册成功')    
-                    }, 100);
-                    $loginBox.show()
-                    $registerBox.hide()
+                    // window.location.reload()
+                    // setTimeout(() => {
+                    //     alert('登录成功')
+                    // }, 100);
+                    window.location.reload()
+                }
+            }
+        })
+    })
+    // 退出
+    $('#logoutBtn').on('click', function() {
+        $.ajax({
+            url: 'api/user/logout',
+            success: function (res) {
+                if (res.code == 200) {
+                    window.location.reload()
                 }
             }
         })

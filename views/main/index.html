@@ -126,29 +126,26 @@
         </div>
 
         <div class="mainRight">
-
-
-            <div class="rightBox">
+            {% if userInfo._id %}
+            <div class="rightBox" id="userInfo">
                 <div class="title">
                     <span>用户信息</span>
                 </div>
                 <p>
-                    <span class="colDark">admin</span>
+                    <span class="colDark">{{userInfo.username}}</span>
                 </p>
-
                 <p>
-                    <span class="colDanger">你好，你是管理员，
-                        <a href="/admin">你可以点击这里进入管理</a>
+                    <span class="colDanger">
+                        你好,欢迎
                     </span>
                 </p>
-
                 <p>
-                    <span class="colDark">
-                        <a href="/logout" id="logoutBtn">退出</a>
+                    <span class="colDark" id="logoutBtn">
+                        <a href="javascript:;">退出</a>
                     </span>
                 </p>
             </div>
-
+            {% else %}
             <div class="rightBox" id="loginBox" style="display: none;">
                 <div class="title">
                     <span>登录</span>
