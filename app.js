@@ -1,6 +1,7 @@
 // 应用程序的启动入口文件
 var express = require('express')
 var app = express()
+var User = require('./models/User')
 // app.get('/style.css', function(req, res, next){
 //     res.setHeader('content-type', 'text/css') // 处理器他类型文件
 //     // 默认发送时html,正确解析
@@ -41,10 +42,15 @@ app.use(function (req, res, next) {
     if (req.cookies.get('userInfo')) {
         try {
             req.userInfo = JSON.parse(req.cookies.get('userInfo'))
+            // 获取当前登录用户的类型(isAdmin)
+            User.findById(req.userInfo._id).then(function (userInfo) {
+                req.userInfo.isAdmin = Boolean(userInfo.isAdmin)
+                next()
+            })
         } catch (e) {}
+    } else {
+        next()
     }
-    console.log(req.cookies.get('userInfo'))
-    next()
 })
 
 /* 

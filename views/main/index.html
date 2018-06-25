@@ -135,9 +135,16 @@
                     <span class="colDark">{{userInfo.username}}</span>
                 </p>
                 <p>
+                    {% if userInfo.isAdmin %}
+                    <span class="colDanger">
+                        你好,管理员同志!
+                    </span>
+                    <a href="/admin">进入管理</a>
+                    {% else %}
                     <span class="colDanger">
                         你好,欢迎
                     </span>
+                    {% endif %}
                 </p>
                 <p>
                     <span class="colDark" id="logoutBtn">
@@ -146,7 +153,7 @@
                 </p>
             </div>
             {% else %}
-            <div class="rightBox" id="loginBox" style="display: none;">
+            <div class="rightBox" id="loginBox">
                 <div class="title">
                     <span>登录</span>
                 </div>
@@ -170,7 +177,7 @@
                 <p class="colWarning textCenter"></p>
             </div>
 
-            <div class="rightBox" id="registerBox">
+            <div class="rightBox" id="registerBox" style="display: none;">
                 <div class="title">
                     <span>注册</span>
                 </div>

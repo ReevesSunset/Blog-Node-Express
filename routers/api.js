@@ -61,8 +61,13 @@ router.post('/user/register', function (req, res, next) {
         })
         return user.save() // 通过操作对象操作 数据库
     }).then(function (newUserInfo) {
+        console.log('-----------------------')
         console.log(newUserInfo)
         responseData.message = '注册成功'
+        // req.cookies.set('userInfo', JSON.stringify({
+        //     _id: newUserInfo._id,
+        //     username: newUserInfo.username
+        // }))
         res.json(responseData)
     })
 })
@@ -111,7 +116,7 @@ router.post('/user/login', function (req, res, next) {
 /* 
     退出
 */
-router.get('/user/logout', function(req, res) {
+router.get('/user/logout', function (req, res) {
     req.cookies.set('userInfo', null)
     res.json(responseData)
 })
