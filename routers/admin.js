@@ -53,4 +53,35 @@ router.get('/user', function (req, res, next) {
 
 })
 
+
+/* 
+  分类管理
+*/
+router.get('/category', function (req, res, next) {
+    // res.send('分类管理')
+    res.render('admin/category_index', {
+        userInfo: req.userInfo
+    })
+})
+
+/* 
+  分类管理--增加分类
+*/
+router.get('/category/add', function (req, res, next) {
+    // res.send('分类管理')
+    res.render('admin/category_add', {
+        userInfo: req.userInfo
+    })
+})
+
+/* 
+  分类管理--增加分类--分类保存
+*/
+router.post('/category/add', function (req, res, next) {
+    // res.send('分类管理')
+    res.render('admin/category_add', {
+        userInfo: req.userInfo
+    })
+})
+
 module.exports = router
