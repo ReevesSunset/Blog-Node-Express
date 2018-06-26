@@ -1,6 +1,6 @@
 // 定义数据结构
 var mongoose = require('mongoose')
 
-var usersSchema = require('../schemas/users')
+var categoriesSchema = require('../schemas/categories')
 
-module.exports =  mongoose.model('User', usersSchema)
+module.exports =  mongoose.model('Category', categoriesSchema)

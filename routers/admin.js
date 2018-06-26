@@ -1,6 +1,7 @@
 var express = require('express')
 var router = express.Router()
 var User = require('../models/User')
+var Category = require('../models/Category')
 
 router.use(function (req, res, next) {
     // 如果不是管理员无法进入Admin页面
@@ -78,9 +79,35 @@ router.get('/category/add', function (req, res, next) {
   分类管理--增加分类--分类保存
 */
 router.post('/category/add', function (req, res, next) {
-    // res.send('分类管理')
-    res.render('admin/category_add', {
-        userInfo: req.userInfo
+    var name = req.body.name || ''
+    // 提交的数据不满足要求,就是空的
+    if (name == '') {
+        res.render('admin/error', {
+            userInfo: req.userInfo,
+            message: '名称不能为空'
+        })
+    }
+    // 查询数据库中是否有相同的分类名称
+    Category.findOne({
+        name: name
+    }).then(function (error) {
+        if (error) {
+            res.render('admin/error', {
+                userInfo: req.userInfo,
+                message: '分类已经存在'
+            })
+            return Promise.reject()
+        } else {
+            // 数据库中不存在这个分类
+            return new Category({
+                name: name
+            }).save()
+        }
+    }).then(function (newCategory) {
+        res.render('admin/success', {
+            userInfo: req.userInfo,
+            message: '保存成功'
+        })
     })
 })
 
