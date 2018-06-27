@@ -135,12 +135,11 @@ router.post('/category/add', function (req, res, next) {
   分类管理--分类修改
 */
 router.get('/category/edit', function (req, res) {
-    // 获取要修改的分类的信息,兵营表单的形式展示出来
+    // 获取要修改的分类的信息,并用表单的形式展示出来
     var id = req.query.id || ''
     Category.findOne({
         _id: id
     }).then(function (category) {
-        console.log(category)
         if (!category) {
             res.render('admin/error', {
                 userInfo: req.userInfo,
@@ -160,7 +159,7 @@ router.get('/category/edit', function (req, res) {
   分类管理--分类修改
 */
 router.post('/category/edit', function (req, res) {
-    var id = req.body.id || ''
+    var id = req.query.id || ''
     var name = req.body.name || ''
     Category.findOne({
         _id: id
@@ -206,7 +205,7 @@ router.post('/category/edit', function (req, res) {
             })
         }
     }).then(function () {
-        res.render('/admin/success', {
+        res.render('admin/success', {
             userInfo: req.userInfo,
             message: '修改成功',
             url: '/admin/category'
