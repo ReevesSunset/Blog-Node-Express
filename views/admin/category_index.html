@@ -4,12 +4,30 @@
 {% block main %}
 <ol class="breadcrumb">
     <li>
-        <a href="#">管理首页</a>
+        <a href="#">分类首页</a>
     </li>
     <li>
-        <a href="#">用户列表</a>
+        <a href="#">分类列表</a>
     </li>
 </ol>
 <h3>用户列表</h3>
 <!-- 引用分页组件 -->
+{% include "page.html" %} 
+<table class="table table-hover table-striped">
+    <tr>
+        <th>id</th>
+        <th>分类名称</th>
+        <th>操作</th>
+    </tr>
+    {% for i in data %}
+    <tr>
+        <td>{{i._id.toString()}}</td>
+        <td>{{i.name}}</td>
+        <td>
+            <a href="javascript:;">修改</a>
+            <a href="javascript:;">删除</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
 {% endblock %}

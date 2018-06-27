@@ -56,12 +56,32 @@ router.get('/user', function (req, res, next) {
 
 
 /* 
-  分类管理
+  分类首页
 */
 router.get('/category', function (req, res, next) {
     // res.send('分类管理')
-    res.render('admin/category_index', {
-        userInfo: req.userInfo
+    // 获取请求中的数据
+    var page = Number(req.query.page || 1)
+    var limit = 10
+    var pages = 0
+    // 从数据库读取数据 count方法获取数据总条数
+    Category.count().then(function (count) {
+        // 计算总页数
+        pages = Math.ceil(count / limit)
+        page = Math.min(page, pages)
+        // 取值不能小于1
+        page = Math.max(page, 1)
+        var skip = (page - 1) * limit
+        Category.find().limit(limit).skip(skip).then(function (categories) {
+            res.render('admin/category_index', {
+                userInfo: req.userInfo,
+                data: categories,
+                page: page,
+                pages: pages,
+                limit: limit,
+                count: count
+            })
+        })
     })
 })
 
