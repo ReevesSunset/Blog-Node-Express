@@ -20,7 +20,7 @@ router.use(function (req, res, next) {
     1. 用户是否已经被注册 ( 数据库查询 )
 */
 router.post('/user/register', function (req, res, next) {
-    console.log(req.body) // 传过来的数据
+    // console.log(req.body) // 传过来的数据
     var username = req.body.username
     var password = req.body.password
     var repassword = req.body.repassword
@@ -47,7 +47,6 @@ router.post('/user/register', function (req, res, next) {
     User.findOne({
         username: username
     }).then(function (userInfo) {
-        console.log(userInfo)
         if (userInfo) {
             responseData.code = 4
             responseData.message = '用户名已经被注册了'
@@ -62,7 +61,6 @@ router.post('/user/register', function (req, res, next) {
         return user.save() // 通过操作对象操作 数据库
     }).then(function (newUserInfo) {
         console.log('-----------------------')
-        console.log(newUserInfo)
         responseData.message = '注册成功'
         // req.cookies.set('userInfo', JSON.stringify({
         //     _id: newUserInfo._id,

@@ -114,7 +114,7 @@ router.post('/category/add', function (req, res, next) {
         if (error) {
             res.render('admin/error', {
                 userInfo: req.userInfo,
-                message: '分类已经存在'
+                message: '分类重复'
             })
             return Promise.reject()
         } else {
@@ -128,6 +128,97 @@ router.post('/category/add', function (req, res, next) {
             userInfo: req.userInfo,
             message: '保存成功'
         })
+    })
+})
+
+/* 
+  分类管理--分类修改
+*/
+router.get('/category/edit', function (req, res) {
+    // 获取要修改的分类的信息,兵营表单的形式展示出来
+    var id = req.query.id || ''
+    Category.findOne({
+        _id: id
+    }).then(function (category) {
+        console.log(category)
+        if (!category) {
+            res.render('admin/error', {
+                userInfo: req.userInfo,
+                message: '分类信息不存在'
+            })
+            return Promise.reject()
+        } else {
+            res.render('admin/category_edit', {
+                userInfo: req.userInfo,
+                category: category
+            })
+        }
+    })
+})
+
+/* 
+  分类管理--分类修改
+*/
+router.post('/category/edit', function (req, res) {
+    var id = req.body.id || ''
+    var name = req.body.name || ''
+    Category.findOne({
+        _id: id
+    }).then(function (category) {
+        if (!category) {
+            res.render('admin/error', {
+                userInfo: req.userInfo,
+                message: '分类信息不存在'
+            })
+            return Promise.reject()
+        } else {
+            // 要修改的分类名称是否在数据库中存在
+            if (name == category.name) {
+                res.render('admin/success', {
+                    userInfo: req.userInfo,
+                    message: '修改成功',
+                    url: '/admin/category'
+                })
+                return Promise.reject()
+            } else {
+                return Category.findOne({
+                    _id: {
+                        $ne: id
+                    },
+                    name: name
+                })
+            }
+        }
+    }).then(function (sameCategory) {
+        // 存在相同的数据
+        if (sameCategory) {
+            res.render('admin/error', {
+                userInfo: req.userInfo,
+                message: '数据库中存在同名分类'
+            })
+            return Promise.reject()
+        } else {
+            // 不存在相同数据,调用update方法
+            return Category.update({
+                _id: id
+            }, {
+                name: name
+            })
+        }
+    }).then(function () {
+        res.render('/admin/success', {
+            userInfo: req.userInfo,
+            message: '修改成功',
+            url: '/admin/category'
+        })
+    })
+})
+/* 
+  分类管理--分类删除
+*/
+router.get('/category/delete', function (req, res, next) {
+    res.render('admin/category_add', {
+        userInfo: req.userInfo
     })
 })
 

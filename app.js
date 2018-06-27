@@ -2,11 +2,6 @@
 var express = require('express')
 var app = express()
 var User = require('./models/User')
-// app.get('/style.css', function(req, res, next){
-//     res.setHeader('content-type', 'text/css') // 处理器他类型文件
-//     // 默认发送时html,正确解析
-//     res.send('body {background: red;}')
-// })
 // 后端处理前端静态文件,设置静态文件托管,当用户访问的url以/publie开始,则返回相应的文件既可
 app.use('/public', express.static(__dirname + '/public'))
 // 模版处理模块
@@ -59,7 +54,6 @@ app.use(function (req, res, next) {
 app.use('/admin', require('./routers/admin'))
 app.use('/api', require('./routers/api'))
 app.use('/', require('./routers/main'))
-
 // 连接数据库
 mongoose.connect('mongodb://localhost:27017/blog', function (err) {
     if (err) {

@@ -24,8 +24,8 @@
         <td>{{i._id.toString()}}</td>
         <td>{{i.name}}</td>
         <td>
-            <a href="javascript:;">修改</a>
-            <a href="javascript:;">删除</a>
+            <a href="/admin/category/edit?id={{i._id.toString()}}">修改</a>
+            <a href="/admin/category/delete?id={{i._id.toString()}}">删除</a>
         </td>
     </tr>
     {% endfor %}
