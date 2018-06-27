@@ -215,9 +215,16 @@ router.post('/category/edit', function (req, res) {
 /* 
   分类管理--分类删除
 */
-router.get('/category/delete', function (req, res, next) {
-    res.render('admin/category_add', {
-        userInfo: req.userInfo
+router.get('/category/delete', function (req, res) {
+    var id = req.query.id || ''
+    Category.remove({
+        _id: id
+    }).then(function () {
+        res.render('admin/success', {
+            userInfo: req.userInfo,
+            message: '删除成功',
+            url: 'admin/categort'
+        })
     })
 })
 
