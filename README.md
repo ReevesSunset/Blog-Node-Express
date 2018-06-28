@@ -29,18 +29,18 @@
 
 # 先把项目克隆到本地
 
-$ git clone https://github.com/ReevesSunset/Blog-Node-Express.git
+git clone https://github.com/ReevesSunset/Blog-Node-Express.git
 
 # 进入后端项目文件夹
 
-$ cd Blog-Node-Express
+cd Blog-Node-Express
 
 # 安装后端所需依赖
 
-$ npm install
+npm install
 
 # 运行后端项目
 
-$ npm run dev
+npm run dev
 
 > 本地地址: http://localhost:8081/
