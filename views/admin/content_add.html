@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+<!-- 继承模板 -->
+
+{% block main %}
+<ol class="breadcrumb">
+    <li>
+        <a href="#">内容首页</a>
+    </li>
+    <li>
+        <a href="#">内容添加</a>
+    </li>
+</ol>
+<form action="/admin/content/add" method="post">
+    <div class="form-group">
+        <label for="type">所属分类:</label>
+        <select name="category" id="type" class="form-control">
+            {% for opt in data %}
+            <option value="{{opt.id}}">{{opt.name}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="title">内容标题:</label>
+        <input type="text" class="form-control" id="title" placeholder="请输入内容标题" name="title">
+    </div>
+    <div class="form-group">
+        <label for="description">简介:</label>
+        <input type="text" class="form-control" id="description" placeholder="请输入内容简介" name="description">
+    </div>
+    <div class="form-group">
+        <p>内容:</p>
+        <textarea name="content" id="content" rows="10" class="form-control"></textarea>
+    </div>
+    <button type="submit" class="btn btn-default">提交</button>
+</form>
+<!-- 引用分页组件 -->
+{% endblock %}

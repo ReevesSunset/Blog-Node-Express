@@ -2,6 +2,7 @@ var express = require('express')
 var router = express.Router()
 var User = require('../models/User')
 var Category = require('../models/Category')
+var Content = require('../models/Content')
 
 router.use(function (req, res, next) {
     // 如果不是管理员无法进入Admin页面
@@ -73,7 +74,9 @@ router.get('/category', function (req, res, next) {
         // sort 方法 1 升序  -1 降序
         page = Math.max(page, 1)
         var skip = (page - 1) * limit
-        Category.find().sort({_id: -1}).limit(limit).skip(skip).then(function (categories) {
+        Category.find().sort({
+            _id: -1
+        }).limit(limit).skip(skip).then(function (categories) {
             res.render('admin/category_index', {
                 userInfo: req.userInfo,
                 data: categories,
@@ -226,6 +229,105 @@ router.get('/category/delete', function (req, res) {
             userInfo: req.userInfo,
             message: '删除成功',
             url: 'admin/categort'
+        })
+    })
+})
+
+/* 
+  内容首页
+*/
+router.get('/content', function (req, res) {
+    // res.send('分类管理')
+    // 获取请求中的数据
+    var page = Number(req.query.page || 1)
+    var limit = 10
+    var pages = 0
+    // 从数据库读取数据 count方法获取数据总条数
+    Content.count().then(function (count) {
+        // 计算总页数
+        pages = Math.ceil(count / limit)
+        page = Math.min(page, pages)
+        // 取值不能小于1
+        // sort 方法 1 升序  -1 降序
+        page = Math.max(page, 1)
+        var skip = (page - 1) * limit
+        Content.find().sort({
+            _id: -1
+        }).limit(limit).skip(skip).then(function (contents) {
+            console.log(contents)
+            res.render('admin/content_index', {
+                userInfo: req.userInfo,
+                contents: contents,
+                page: page,
+                pages: pages,
+                limit: limit,
+                count: count
+            })
+        })
+    })
+})
+
+/* 
+  内容首页--增加内容
+*/
+router.get('/content/add', function (req, res) {
+    Category.find().sort({
+        _id: -1
+    }).then(function (categories) {
+        res.render('admin/content_add', {
+            userInfo: req.userInfo,
+            data: categories
+        })
+    })
+})
+
+/* 
+  内容保存
+*/
+router.post('/content/add', function (req, res) {
+    console.log(req.body)
+    // res.render('admin/content_add', {
+    //     userInfo: req.userInfo
+    // })
+    if (req.body.category == '') {
+        res.render('admin/error', {
+            userInfo: req.userInfo,
+            message: '内容分类不能为空'
+        })
+        return
+    }
+    if (req.body.title == '') {
+        res.render('admin/error', {
+            userInfo: req.userInfo,
+            message: '内容标题不能为空'
+        })
+        return
+    }
+    if (req.body.description == '') {
+        res.render('admin/error', {
+            userInfo: req.userInfo,
+            message: '内容简介不能为空'
+        })
+        return
+    }
+    if (req.body.content == '') {
+        res.render('admin/error', {
+            userInfo: req.userInfo,
+            message: '内容不能为空'
+        })
+        return
+    }
+    // 保存数据到数据库
+    new Content({
+        category: req.body.category,
+        title: req.body.title,
+        description: req.body.description,
+        content: req.body.content
+    }).save().then(function (rs) {
+        res.render('admin/success', {
+            userInfo: req.userInfo,
+            message: '保存成功',
+            url: 'admin/content'
         })
     })
 })
