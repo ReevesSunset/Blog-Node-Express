@@ -25,24 +25,11 @@
     <nav>
         <div class="menu">
             <a href="/" class="focus">首页</a>
-
-            <a href="/578d0a391b82d423481b6930">HTML5</a>
-
-            <a href="/578d0a431b82d423481b6931">CSS</a>
-
-            <a href="/578d0a4a1b82d423481b6932">JAVASCRIPT</a>
-
-            <a href="/578d0a501b82d423481b6933">PHP</a>
-
-            <a href="/578d0a541b82d423481b6934">JAVA</a>
-
-            <a href="/57921998f925118da88ea826">Express</a>
-
+            {% for category in categorise %}
+            <a href="/">{{category.name}}</a>
+            {% endfor %}
         </div>
     </nav>
-
-
-
     <main class="clear">
         <div class="mainLeft">
 
