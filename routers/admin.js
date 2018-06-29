@@ -254,7 +254,6 @@ router.get('/content', function (req, res) {
         Content.find().sort({
             _id: -1
         }).limit(limit).skip(skip).then(function (contents) {
-            console.log(contents)
             res.render('admin/content_index', {
                 userInfo: req.userInfo,
                 contents: contents,
@@ -286,9 +285,6 @@ router.get('/content/add', function (req, res) {
 */
 router.post('/content/add', function (req, res) {
     console.log(req.body)
-    // res.render('admin/content_add', {
-    //     userInfo: req.userInfo
-    // })
     if (req.body.category == '') {
         res.render('admin/error', {
             userInfo: req.userInfo,
@@ -328,6 +324,82 @@ router.post('/content/add', function (req, res) {
             userInfo: req.userInfo,
             message: '保存成功',
             url: 'admin/content'
+        })
+    })
+})
+
+/* 
+  内容 -- 修改
+*/
+router.post('/content/edit', function (req, res) {
+    var id = req.query.id || ''
+    var name = req.body.name || ''
+    Content.findOne({
+        _id: id
+    }).then(function (content) {
+        if (!content) {
+            res.render('admin/error', {
+                userInfo: req.userInfo,
+                message: '内容信息不存在'
+            })
+            return Promise.reject()
+        } else {
+            // 要修改的分类名称是否在数据库中存在
+            if (title == content.title) {
+                res.render('admin/success', {
+                    userInfo: req.userInfo,
+                    message: '修改成功',
+                    url: '/admin/content'
+                })
+                return Promise.reject()
+            } else {
+                return Content.findOne({
+                    _id: {
+                        $ne: id
+                    },
+                    name: name
+                })
+            }
+        }
+    }).then(function (sameContent) {
+        // 存在相同的数据
+        if (sameContent) {
+            res.render('admin/error', {
+                userInfo: req.userInfo,
+                message: '数据库存在重复信息'
+            })
+            return Promise.reject()
+        } else {
+            // 不存在相同数据,调用update方法
+            return Category.update({
+                _id: id
+            }, {
+                category: req.body.category,
+                title: req.body.title,
+                description: req.body.description,
+                content: req.body.content
+            })
+        }
+    }).then(function () {
+        res.render('admin/success', {
+            userInfo: req.userInfo,
+            message: '修改成功',
+            url: '/admin/category'
+        })
+    })
+})
+/* 
+  内容 -- 删除
+*/
+router.get('/content/delete', function (req, res) {
+    var id = req.query.id || ''
+    Content.remove({
+        _id: id
+    }).then(function () {
+        res.render('admin/success', {
+            userInfo: req.userInfo,
+            message: '删除成功',
+            url: '/'
         })
     })
 })
