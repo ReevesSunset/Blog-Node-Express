@@ -60,6 +60,7 @@ mongoose.connect('mongodb://localhost:27017/blog', function (err) {
         console.log('---- Database link failed ----')
     } else {
         console.log('---- Database link succeeded  ----')
+        console.log('Success: http://localhost:8081/')
         // 连接数据库成功后再监听http请求,防止发生错误
         app.listen(8081)
     }
