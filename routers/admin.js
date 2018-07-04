@@ -253,7 +253,8 @@ router.get('/content', function (req, res) {
         var skip = (page - 1) * limit
         Content.find().sort({
             _id: -1
-        }).limit(limit).skip(skip).then(function (contents) {
+        }).limit(limit).skip(skip).populate('category').then(function (contents) {
+            console.log(contents)
             res.render('admin/content_index', {
                 userInfo: req.userInfo,
                 contents: contents,
@@ -270,6 +271,7 @@ router.get('/content', function (req, res) {
   内容首页--增加内容
 */
 router.get('/content/add', function (req, res) {
+    // 查询现有的分类
     Category.find().sort({
         _id: -1
     }).then(function (categories) {
@@ -328,15 +330,16 @@ router.post('/content/add', function (req, res) {
     })
 })
 
-
 /* 
   内容 -- 修改页面
 */
 router.get('/content/edit', function (req, res) {
     var id = req.query.id || ''
+    console.log(id)
     Content.findOne({
         _id: id
     }).then(function (content) {
+        console.log(content)
         if (!content) {
             res.render('admin/error', {
                 userInfo: req.userInfo,
@@ -352,67 +355,7 @@ router.get('/content/edit', function (req, res) {
         }
     })
 })
-/* 
-  内容 -- 修改
-*/
-router.post('/content/edit', function (req, res) {
-    var id = req.query.id || ''
-    var name = req.body.name || ''
-    Content.findOne({
-        _id: id
-    }).then(function (content) {
-        console.log(content)
-        // if (!content) {
-        //     res.render('admin/error', {
-        //         userInfo: req.userInfo,
-        //         message: '内容信息不存在'
-        //     })
-        //     return Promise.reject()
-        // } else {
-        //     // 要修改的分类名称是否在数据库中存在
-        //     if (title == content.title) {
-        //         res.render('admin/success', {
-        //             userInfo: req.userInfo,
-        //             message: '修改成功',
-        //             url: '/admin/content'
-        //         })
-        //         return Promise.reject()
-        //     } else {
-        //         return Content.findOne({
-        //             _id: {
-        //                 $ne: id
-        //             },
-        //             name: name
-        //         })
-        //     }
-        // }
-    }).then(function (sameContent) {
-        // 存在相同的数据
-        if (sameContent) {
-            res.render('admin/error', {
-                userInfo: req.userInfo,
-                message: '数据库存在重复信息'
-            })
-            return Promise.reject()
-        } else {
-            // 不存在相同数据,调用update方法
-            return Category.update({
-                _id: id
-            }, {
-                category: req.body.category,
-                title: req.body.title,
-                description: req.body.description,
-                content: req.body.content
-            })
-        }
-    }).then(function () {
-        res.render('admin/success', {
-            userInfo: req.userInfo,
-            message: '修改成功',
-            url: '/admin/category'
-        })
-    })
-})
+
 /* 
   内容 -- 删除
 */
