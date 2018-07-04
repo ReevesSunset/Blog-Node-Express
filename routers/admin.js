@@ -328,6 +328,30 @@ router.post('/content/add', function (req, res) {
     })
 })
 
+
+/* 
+  内容 -- 修改页面
+*/
+router.get('/content/edit', function (req, res) {
+    var id = req.query.id || ''
+    Content.findOne({
+        _id: id
+    }).then(function (content) {
+        if (!content) {
+            res.render('admin/error', {
+                userInfo: req.userInfo,
+                message: '分类信息不存在'
+            })
+            return Promise.reject()
+        } else {
+            res.render('admin/content_edit', {
+                userInfo: req.userInfo,
+                content: content,
+                url: '/admin/content'
+            })
+        }
+    })
+})
 /* 
   内容 -- 修改
 */
@@ -337,30 +361,31 @@ router.post('/content/edit', function (req, res) {
     Content.findOne({
         _id: id
     }).then(function (content) {
-        if (!content) {
-            res.render('admin/error', {
-                userInfo: req.userInfo,
-                message: '内容信息不存在'
-            })
-            return Promise.reject()
-        } else {
-            // 要修改的分类名称是否在数据库中存在
-            if (title == content.title) {
-                res.render('admin/success', {
-                    userInfo: req.userInfo,
-                    message: '修改成功',
-                    url: '/admin/content'
-                })
-                return Promise.reject()
-            } else {
-                return Content.findOne({
-                    _id: {
-                        $ne: id
-                    },
-                    name: name
-                })
-            }
-        }
+        console.log(content)
+        // if (!content) {
+        //     res.render('admin/error', {
+        //         userInfo: req.userInfo,
+        //         message: '内容信息不存在'
+        //     })
+        //     return Promise.reject()
+        // } else {
+        //     // 要修改的分类名称是否在数据库中存在
+        //     if (title == content.title) {
+        //         res.render('admin/success', {
+        //             userInfo: req.userInfo,
+        //             message: '修改成功',
+        //             url: '/admin/content'
+        //         })
+        //         return Promise.reject()
+        //     } else {
+        //         return Content.findOne({
+        //             _id: {
+        //                 $ne: id
+        //             },
+        //             name: name
+        //         })
+        //     }
+        // }
     }).then(function (sameContent) {
         // 存在相同的数据
         if (sameContent) {
