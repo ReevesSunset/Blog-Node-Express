@@ -17,7 +17,7 @@
 
 ## 数据库
 
-> 使用 mongoose 连接数据库
+> 使用 mongoose 连接数据库, 命令启动数据库 ./mongod --dbpath /blog-node-express/db (--dbpath后为本地数据库数据存放位置,此项目就是db文件夹)
 
 ```
     // 加载数据库模块

@@ -181,7 +181,7 @@ router.post('/category/edit', function (req, res) {
                 res.render('admin/success', {
                     userInfo: req.userInfo,
                     message: '修改成功',
-                    url: '/admin/category'
+                    url: '/admin/content'
                 })
                 return Promise.reject()
             } else {
@@ -213,7 +213,7 @@ router.post('/category/edit', function (req, res) {
         res.render('admin/success', {
             userInfo: req.userInfo,
             message: '修改成功',
-            url: '/admin/category'
+            url: '/admin/content'
         })
     })
 })
@@ -228,7 +228,7 @@ router.get('/category/delete', function (req, res) {
         res.render('admin/success', {
             userInfo: req.userInfo,
             message: '删除成功',
-            url: 'admin/categort'
+            url: 'admin/content'
         })
     })
 })
@@ -319,11 +319,11 @@ router.post('/content/add', function (req, res) {
         title: req.body.title,
         description: req.body.description,
         content: req.body.content
-    }).save().then(function (rs) {
-        res.render('admin/success', {
+    }).then(function (rs) {
+        res.render('admin/success', { 
             userInfo: req.userInfo,
             message: '保存成功',
-            url: 'admin/content'
+            url: '/admin/content'
         })
     })
 })
@@ -359,9 +359,11 @@ router.get('/content/edit', function (req, res) {
 })
 
 /* 
-  内容 -- 修改的保存
+  内容 -- 保存
 */
 router.post('/content/edit', function (req, res) {
+    console.log(res.body)
+    var id = req.query.id || ''
     if (req.body.category == '') {
         res.render('admin/error', {
             userInfo: req.userInfo,
@@ -391,18 +393,20 @@ router.post('/content/edit', function (req, res) {
         return
     }
     // 保存数据到数据库
-    // new Content({
-    //     category: req.body.category,
-    //     title: req.body.title,
-    //     description: req.body.description,
-    //     content: req.body.content
-    // }).save().then(function (rs) {
-    //     res.render('admin/success', {
-    //         userInfo: req.userInfo,
-    //         message: '保存成功',
-    //         url: 'admin/content'
-    //     })
-    // })
+    Content.update({
+        _id: id
+    }, {
+        category: req.body.category,
+        title: req.body.title,
+        description: req.body.description,
+        content: req.body.content
+    }).then(function () {
+        res.render('admin/success', {
+            userInfo: req.userInfo,
+            message: '保存成功',
+            url: '/admin/content'
+        })
+    })
 })
 
 
@@ -417,7 +421,7 @@ router.get('/content/delete', function (req, res) {
         res.render('admin/success', {
             userInfo: req.userInfo,
             message: '删除成功',
-            url: '/'
+            url: '/admin/content'
         })
     })
 })
