@@ -34,7 +34,7 @@
 })
 ```
 
-## 运行项目
+## 运行项目(前提安装mongodb)
 
 # 先把项目克隆到本地
 
@@ -48,8 +48,8 @@ cd Blog-Node-Express
 
 npm install
 
-# 运行后端项目
+# 运行项目
 
-npm run dev
+node app.js
 
 > 本地地址: http://localhost:8081/

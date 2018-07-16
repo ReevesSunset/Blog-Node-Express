@@ -19,7 +19,6 @@
         <th>分类名称</th>
         <th>内容标题</th>
         <th>内容简介</th>
-        <!-- <th>内容</th> -->
         <th>操作</th>
     </tr>
     {% for i in contents %}
@@ -28,7 +27,6 @@
         <td>{{i.category.name.toString()}}</td>
         <td>{{i.title}}</td>
         <td>{{i.description}}</td>
-        <!-- <td>{{i.content}}</td> -->
         <td>
             <a href="/admin/content/edit?id={{i._id.toString()}}">修改</a>
             <a href="/admin/content/delete?id={{i._id.toString()}}">删除</a>

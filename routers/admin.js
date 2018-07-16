@@ -94,6 +94,7 @@ router.get('/category', function (req, res, next) {
 */
 router.get('/category/add', function (req, res, next) {
     // res.send('分类管理')
+    console.log('pass')
     res.render('admin/category_add', {
         userInfo: req.userInfo
     })
@@ -285,6 +286,7 @@ router.get('/content/add', function (req, res) {
   内容保存
 */
 router.post('/content/add', function (req, res) {
+    console.log('增加内容')
     if (req.body.category == '') {
         res.render('admin/error', {
             userInfo: req.userInfo,
@@ -334,7 +336,7 @@ router.post('/content/add', function (req, res) {
 router.get('/content/edit', function (req, res) {
     // 查询现有的分类
     Category.find().sort({
-        _id: 1
+        _id: -1
     }).then(function (categories) {
         var id = req.query.id || ''
         Content.findOne({
@@ -359,10 +361,10 @@ router.get('/content/edit', function (req, res) {
 })
 
 /* 
-  内容 -- 保存
+  内容 -- 修改
 */
 router.post('/content/edit', function (req, res) {
-    console.log(res.body)
+    console.log(req.body)
     var id = req.query.id || ''
     if (req.body.category == '') {
         res.render('admin/error', {
