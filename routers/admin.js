@@ -286,7 +286,6 @@ router.get('/content/add', function (req, res) {
   内容保存
 */
 router.post('/content/add', function (req, res) {
-    console.log('增加内容')
     if (req.body.category == '') {
         res.render('admin/error', {
             userInfo: req.userInfo,
@@ -322,7 +321,7 @@ router.post('/content/add', function (req, res) {
         description: req.body.description,
         content: req.body.content
     }).then(function (rs) {
-        res.render('admin/success', { 
+        res.render('admin/success', {
             userInfo: req.userInfo,
             message: '保存成功',
             url: '/admin/content'
@@ -331,37 +330,38 @@ router.post('/content/add', function (req, res) {
 })
 
 /* 
-  内容 -- 修改页面
+  内容 -- 修改页面获取
 */
 router.get('/content/edit', function (req, res) {
     // 查询现有的分类
+    var id = req.query.id || ''
+    var categories = []
     Category.find().sort({
-        _id: -1
-    }).then(function (categories) {
-        var id = req.query.id || ''
-        Content.findOne({
+        _id: 1
+    }).then(function (rs) {
+        categories = rs
+        return Content.findOne({
             _id: id
-        }).populate('category').then(function (content) {
-            if (!content) {
-                res.render('admin/error', {
-                    userInfo: req.userInfo,
-                    message: '分类信息不存在'
-                })
-                return Promise.reject()
-            } else {
-                res.render('admin/content_edit', {
-                    userInfo: req.userInfo,
-                    content: content,
-                    url: '/admin/content',
-                    data: categories
-                })
-            }
-        })
+        }).populate('category')
+    }).then(function (content) {
+        if (!content) {
+            res.render('admin/error', {
+                userInfo: req.userInfo,
+                message: '分类信息不存在'
+            })
+            return Promise.reject()
+        } else {
+            res.render('admin/content_edit', {
+                userInfo: req.userInfo,
+                content: content,
+                url: '/admin/content',
+                data: categories
+            })
+        }
     })
 })
-
 /* 
-  内容 -- 修改
+  内容 -- 修改接口
 */
 router.post('/content/edit', function (req, res) {
     console.log(req.body)
@@ -405,7 +405,7 @@ router.post('/content/edit', function (req, res) {
     }).then(function () {
         res.render('admin/success', {
             userInfo: req.userInfo,
-            message: '保存成功',
+            message: '内容保存成功',
             url: '/admin/content'
         })
     })
