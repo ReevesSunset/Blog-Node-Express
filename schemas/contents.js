@@ -11,6 +11,28 @@ module.exports = new mongoose.Schema({
         ref: 'Category'
     },
     title: String,
-    content: String,
-    description: String
+    // 用户
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        // 引用
+        ref: 'User'
+    },
+    // 添加时间
+    addTime: {
+        type: Date,
+        default: new Date()
+    },
+    // 阅读量
+    views: {
+        type: Number,
+        default: 0
+    },
+    content: {
+        type: String,
+        default: ''
+    },
+    description: {
+        type: String,
+        default: ''
+    }
 })

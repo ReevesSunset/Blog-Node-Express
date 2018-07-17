@@ -10,10 +10,11 @@
         <a href="#">内容修改</a>
     </li>
 </ol>
+<h3>内容修改 -- {{content.title}}</h3>
 <form role="form" method="post">
     <div class="form-group">
         <label for="type">所属分类:</label>
-        <select name="content" id="type" class="form-control">
+        <select name="category" id="category" class="form-control">
             {% for opt in data %} 
                 {%if content.category._id.toString() == opt._id.toString()%}
                     <option value="{{opt.id}}" selected>{{opt.name}}</option>
