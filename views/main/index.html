@@ -21,12 +21,11 @@
             <img src="/public/images/00002637.png">
         </div>
     </header>
-
     <nav>
         <div class="menu">
             <a href="/" class="focus">首页</a>
-            {% for category in categorise %}
-            <a href="/">{{category.name}}</a>
+            {% for category in categories %}
+            <a href="/?category={{category.id}}">{{category.name}}</a>
             {% endfor %}
         </div>
     </nav>
@@ -52,25 +51,27 @@
             {% endfor %}
             <div class="pager">
                 <ul class="clear">
-                    {% if page = <= 1 %}
+
                     <li class="previous">
-                        <a href="javascript:;">没有上一页了</a>
-                    </li>
-                    {% else %}
-                    <li class="previous">
+                        {% if page <=1 %} <a href="javascript:;">没有上一页了</a>
+                        {% else %}
                         <a href="/?page={{page-1}}">上一页</a>
+                        {% endif %}
                     </li>
-                    {% endif %}
                     <li>
+                        {% if pages > 0 %}
                         <strong>{{page}} / {{pages}}</strong>
+                        {% else %}
+                        <strong>{{pages}}</strong>
+                        {% endif %}
                     </li>
-
                     <li class="next">
-
+                        {% if page >= pages %}
+                        <a href="javascript:;">没有下一页了</a>
+                        {% else %}
                         <a href="/?page={{page+1}}">下一页</a>
-
+                        {% endif %}
                     </li>
-
                 </ul>
             </div>
         </div>
@@ -151,8 +152,6 @@
                     <a href="javascript:;" class="colMint">马上登录</a>　</p>
                 <p class="colWarning textCenter"></p>
             </div>
-
-
             <div class="rightBox">
                 <div class="title">
                     <span>社区</span>
