@@ -8,13 +8,12 @@ var Content = require('../models/Content')
     首页
 */
 router.get('/', function (req, res) {
-
     var data = {
         userInfo: req.userInfo,
         categories: [],
         count: 0,
         page: Number(req.query.page || 1),
-        limit: 10,
+        limit: 3,
         pages: 0
     }
     Category.find().then(function (categories) {
@@ -27,7 +26,9 @@ router.get('/', function (req, res) {
         data.page = Math.min(data.page, data.pages)
         data.page = Math.max(data.page, 1)
         var skip = (data.page - 1) * data.limit
-        return Content.find().limit(data.limit).skip(skip).populate(['category', 'user'])
+        return Content.find().limit(data.limit).skip(skip).populate(['category', 'user']).sort({
+            addTime: -1
+        })
     }).then(function (contents) {
         data.contents = contents
         console.log(data)

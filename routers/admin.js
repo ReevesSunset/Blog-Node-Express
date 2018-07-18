@@ -254,7 +254,7 @@ router.get('/content', function (req, res) {
         var skip = (page - 1) * limit
         Content.find().sort({
             _id: -1
-        }).limit(limit).skip(skip).populate(['category','user']).then(function (contents) {
+        }).limit(limit).skip(skip).populate(['category','user']).sort({addTime: -1}).then(function (contents) {
             res.render('admin/content_index', {
                 userInfo: req.userInfo,
                 contents: contents,
@@ -286,7 +286,6 @@ router.get('/content/add', function (req, res) {
   内容保存
 */
 router.post('/content/add', function (req, res) {
-    console.log(req.body)
     if (req.body.category == '') {
         res.render('admin/error', {
             userInfo: req.userInfo,

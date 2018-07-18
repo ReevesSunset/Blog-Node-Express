@@ -32,79 +32,42 @@
     </nav>
     <main class="clear">
         <div class="mainLeft">
-
+            {% for item in contents %}
             <div class="listBox">
-                <h1>symfony2</h1>
+                <h1>{{item.title}}</h1>
                 <p class="colDefault">
                     作者：
-                    <span class="colInfo">admin</span> - 时间：
-                    <span class="colInfo">2016年7月19日 1:3:31</span> - 阅读：
-                    <span class="colInfo">231</span> - 评论：
-                    <span class="colInfo">10</span>
+                    <span class="colInfo">{{item.user.username}}</span> - 时间：
+                    <span class="colInfo">{{item.addTime | date('Y-m-d H:i:s', -8*60)}}</span> - 阅读：
+                    <span class="colInfo">{{item.views}}</span> - 评论：
+                    <span class="colInfo">{{}}</span>
                 </p>
                 <dfn>
-                    <p>PHP框架 - symfony2</p>
+                    <p>{{item.description}}</p>
                 </dfn>
                 <div class="function">
                     <a href="/view/578d0be3fb13ff664906f7fd">阅读全文</a>
                 </div>
             </div>
-
-            <div class="listBox">
-                <h1>h1标签</h1>
-                <p class="colDefault">
-                    作者：
-                    <span class="colInfo">admin</span> - 时间：
-                    <span class="colInfo">2016年7月19日 1:1:37</span> - 阅读：
-                    <span class="colInfo">93</span> - 评论：
-                    <span class="colInfo">1</span>
-                </p>
-                <dfn>
-                    <p>h1标签介绍</p>
-                </dfn>
-                <div class="function">
-                    <a href="/view/578d0b715e521642492fc0fd">阅读全文</a>
-                </div>
-            </div>
-
-            <div class="listBox">
-                <h1>DOM</h1>
-                <p class="colDefault">
-                    作者：
-                    <span class="colInfo">admin</span> - 时间：
-                    <span class="colInfo">2016年7月20日 16:24:38</span> - 阅读：
-                    <span class="colInfo">95</span> - 评论：
-                    <span class="colInfo">41</span>
-                </p>
-                <dfn>
-                    <h2>DOM - Document Object Model</h2>
-
-                    <blockquote>
-                        <p>文档对象模型</p>
-                    </blockquote>
-                </dfn>
-                <div class="function">
-                    <a href="/view/578f3546ce908f1c8c43cff0">阅读全文</a>
-                </div>
-            </div>
-
-
+            {% endfor %}
             <div class="pager">
                 <ul class="clear">
-
+                    {% if page = <= 1 %}
                     <li class="previous">
-
                         <a href="javascript:;">没有上一页了</a>
-
                     </li>
-
+                    {% else %}
+                    <li class="previous">
+                        <a href="/?page={{page-1}}">上一页</a>
+                    </li>
+                    {% endif %}
                     <li>
-                        <strong>1 / 2</strong>
+                        <strong>{{page}} / {{pages}}</strong>
                     </li>
 
                     <li class="next">
 
-                        <a href="/2">下一页</a>
+                        <a href="/?page={{page+1}}">下一页</a>
 
                     </li>
 
