@@ -27,6 +27,7 @@ module.exports = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    // 内容
     content: {
         type: String,
         default: ''
@@ -34,5 +35,10 @@ module.exports = new mongoose.Schema({
     description: {
         type: String,
         default: ''
+    },
+    // 评论
+    comments: {
+        type: Array,
+        default: []
     }
 })

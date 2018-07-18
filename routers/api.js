@@ -1,8 +1,9 @@
 var express = require('express')
 var router = express.Router()
 var User = require('../models/User')
+var Content = require('../models/Content')
+
 var responseData // 统一的返回的数据格式
-// 
 router.use(function (req, res, next) {
     responseData = {
         code: 200,
@@ -120,10 +121,42 @@ router.get('/user/logout', function (req, res) {
 })
 
 
+/** 
+ * 评论提交
+*/
+router.post('/comment/post', function(req, res){
+    var contentId = req.body.contentid || ''
+    var postData = {
+        username: req.userInfo.username,
+        postTime: new Date(),
+        content: req.body.content
+    }
+    // 查询当前这篇内容的信息
+    Content.findOne({
+        _id: contentId
+    }).then(function(content){
+        content.comments.push(postData)
+        return content.save()
+    }).then(function(newContent){
+        responseData.message = '评论成功'
+        responseData.data = newContent
+        res.json(responseData)
+    })
+})
 
-
-
-
+/** 
+ * 获取指定文章的评论
+*/
+router.get('/comment', function(req, res){
+    var contentId = req.query.contentid || ''
+    // 查询当前这篇内容的信息
+    Content.findOne({
+        _id: contentId
+    }).then(function(content){
+        responseData.data = content.comments
+        res.json(responseData)
+    })
+})
 
 
 module.exports = router

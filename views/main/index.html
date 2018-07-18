@@ -6,7 +6,7 @@
         <span class="colInfo">{{item.user.username}}</span> - 时间：
         <span class="colInfo">{{item.addTime | date('Y-m-d H:i:s', -8*60)}}</span> - 阅读：
         <span class="colInfo">{{item.views}}</span> - 评论：
-        <span class="colInfo">{{}}</span>
+        <span class="colInfo">{{item.comments.length}}</span>
     </p>
     <dfn>
         <p>{{item.description}}</p>

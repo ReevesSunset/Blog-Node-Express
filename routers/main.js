@@ -56,7 +56,6 @@ router.get('/view', function (req, res) {
         _id: contentid
     }).then(function (content) {
         data.content = content
-        console.log(content)
         content.views++ // 阅读数
         content.save()
         res.render('main/view', data)
