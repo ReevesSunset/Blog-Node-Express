@@ -254,7 +254,9 @@ router.get('/content', function (req, res) {
         var skip = (page - 1) * limit
         Content.find().sort({
             _id: -1
-        }).limit(limit).skip(skip).populate(['category','user']).sort({addTime: -1}).then(function (contents) {
+        }).limit(limit).skip(skip).populate(['category', 'user']).sort({
+            addTime: -1
+        }).then(function (contents) {
             res.render('admin/content_index', {
                 userInfo: req.userInfo,
                 contents: contents,
